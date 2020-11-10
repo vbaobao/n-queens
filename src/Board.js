@@ -62,14 +62,14 @@
     },
 
 
-/*
-         _             _     _
-     ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
-    / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
-    \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
-    |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
 
- */
+    //      _             _     _
+    //  ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
+    // / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
+    // \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
+    // |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
+
+
     /*=========================================================================
     =                 TODO: fill in these Helper Functions                    =
     =========================================================================*/
@@ -78,13 +78,41 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
-    hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
-    },
 
+    hasRowConflictAt: function(rowIndex) {
+      //hasRowConflictAt(1);
+      // row[0]
+      // 0: (3) [1, 0, 0]
+      // 1: (3) [0, 1, 0] << Has row conflict?
+      // 2: (3) [0, 0, 1]
+      //input; rowIndex
+      // 0,1
+      //if there are two 1s return false
+      // in array we have only two value 0,1  [ 0,0,1]
+
+      // if sum of element is array >1 , there is conflict
+      //for( var )
+      let row = this.rows()[rowIndex];
+      var counts = 0;
+      for (var col = 0; col < row.length; col++) {
+        // check if there two 1s
+        counts += row[col];
+      }
+
+      if (counts > 1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      for (var i = 0; i < this.rows().length; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -94,7 +122,7 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      //return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
