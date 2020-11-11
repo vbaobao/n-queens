@@ -122,12 +122,32 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      //return false; // fixme
+      //store in variable length of the board (this.rows().length)
+      var len = this.rows().length;
+      //loop throu each row at same index
+      var count = 0;
+      for ( var i = 0; i < len; i++) {
+        count += this.rows()[i][colIndex];
+      }
+      if (count > 1) {
+        return true;
+      } else {
+        return false;
+      }
+
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      // Store number of columns in board
+      let cols = this.rows()[0].length;
+      // first go with all columns
+      for (var i = 0; i < cols; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
