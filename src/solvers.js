@@ -29,33 +29,53 @@ window.findNRooksSolution = function(n) {
       solution.rows()[x][y] = 1;
       if (solution.hasAnyRowConflicts()) {
         // If there is row conflict
-        console.log('There is a row conflict');
         solution.rows()[x][y] = 0;
         break;
       }
       if (solution.hasAnyColConflicts()) {
         // If there is col conflict
-        console.log('There is a col conflict');
         solution.rows()[x][y] = 0;
         continue;
       }
     }
   }
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution.rows()));
+  //console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution.rows()));
   return solution.rows();
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   var solutionCount = 0;//undefined; //fixme
+  if (n < 2) {
+    return 1;
+  }
 
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+  solutionCount = n * window.countNRooksSolutions(n - 1);
+
+  //console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  if ( n === 0 ) { return [[]]; }
+  var solution = this.findNRooksSolution(n);
+
+  for ( var x = 0; x < n; x++) { // Traverse to x axis
+    for (var y = 0; y < n; y++) { // Traverse y axis
+      if ( solution[x][y] === 1 ) {
+        if (solution.hasAnyMajorDiagonalConflicts() && solution.hasAnyMinorDiagonalConflicts()) {
+          // If there is col conflict
+          solution[x][y] = 0;
+          if ( y === n ) {
+            solution[x + 1][0] = 1;
+          }
+          solution[x][y + 1] = 1;
+          continue;
+        }
+      }
+    }
+  }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
