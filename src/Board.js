@@ -140,7 +140,7 @@
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
       // Store number of columns in board
-      let cols = this.rows()[0].length;
+      let cols = this.rows().length;
       // first go with all columns
       for (var i = 0; i < cols; i++) {
         if (this.hasColConflictAt(i)) {
@@ -164,7 +164,7 @@
       // x       1
       // x            1
       // x                1
-      let cols = this.rows()[0].length;
+      let cols = this.rows().length;
       let count = 0;
       var x = 0;
       var y = majorDiagonalColumnIndexAtFirstRow;
