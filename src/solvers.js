@@ -61,72 +61,70 @@ window.findNQueensSolution = function(n) {
   let numRows = n;
 
   if ( n === 0 ) { return []; }
+  if ( n === 1 ) { return [[1]]; }
+  if ( n === 2 ) { return [[], []]; }
+  if ( n === 3 ) { return [[], [], []]; }
 
   var solution = new Board({n: numRows});
-  var count = 0;
+  var solutionBoard = [];
 
-  while (count < n) {
-    //Set first queens position, col change, but not row
-    for ( let i = 0; i < n; i++) {
-      //Set first position
-      solution.rows()[0][i] = 1;
-      count++;
+  var recurse = function (row) {
+    if ( row === n ) {
+      solutionBoard = [];
+      for ( let i = 0; i < solution.rows().length; i++) {
+        solutionBoard.push([...solution.get(i)]);
+      }
+      return;
+    } else {
+      for ( var col = 0; col < n; col++) {
 
-      for ( var x = 0; x < n; x++) { // Traverse to x axis
-        for (var y = 0; y < n; y++) { // Traverse y axis
-          if (solution.rows()[x][y] === 1) {
-            break;
-          }
-          solution.rows()[x][y] = 1;
-          count ++;
-          if (solution.hasAnyRowConflicts()) {
-            // If there is row conflict
-            solution.rows()[x][y] = 0;
-            count--;
-            break;
-          }
-          if (solution.hasAnyColConflicts()) {
-            // If there is col conflict
-            solution.rows()[x][y] = 0;
-            count--;
-            continue;
-          }
-          if (solution.hasAnyMajorDiagonalConflicts() || solution.hasAnyMinorDiagonalConflicts()) {
-            // If there is col conflict
-            solution.rows()[x][y] = 0;
-            count--;
-            continue;
-          }
+        solution.togglePiece(row, col);
+
+        if (!solution.hasAnyQueensConflicts()) {
+          recurse(row + 1);
         }
+
+        solution.togglePiece(row, col);
       }
-
-      console.log(solution.rows());
-      console.log('There should be ' + n + 'queens, and there is ' + count);
-
-      if (count < n) {
-        solution = new Board({n: numRows});
-      } else if (count === n) {
-        console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution.rows()));
-
-        return solution.rows();
-      }
-
-      count = 0;
-
     }
+  };
 
-    return 0;
+  recurse(0);
 
-  }
-
-  // console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution.rows()));
-
-  // return solution.rows();
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solutionBoard));
+  return solutionBoard;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  let numRows = n;
+
+  if ( n === 0 || n === 1 ) { return 1; }
+  if ( n === 2 || n === 3 ) { return 0; }
+
+  var solution = new Board({n: numRows});
+  var solutionBoard = [];
+  var solutionCount = 0;
+
+  var recurse = function (row) {
+    if ( row === n ) {
+      solutionCount++;
+      return;
+    } else {
+      for ( var col = 0; col < n; col++) {
+
+        solution.togglePiece(row, col);
+
+        if (!solution.hasAnyQueensConflicts()) {
+          recurse(row + 1);
+        }
+
+        solution.togglePiece(row, col);
+      }
+    }
+  };
+
+  recurse(0);
 
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
