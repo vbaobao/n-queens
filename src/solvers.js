@@ -130,4 +130,17 @@ window.countNQueensSolutions = function(n) {
   return solutionCount;
 };
 
-//
+/* Time Complexity
+ * hasRowConflictAt() -> O(n);
+ * hasAnyRowConflicts() -> O(n**2);
+ * hasColConflictAt() -> O(n);
+ * hasAnyColConflicts() -> O(n**2);
+ * hasMajorDiagonalConflictAt() -> O(n);
+ * hasAnyMajorDiagonalConflicts() -> O(n**2);
+ * hasMinorDiagonalConflictAt() -> O(n);
+ * hasAnyMinorDiagonalConflicts() -> O(n**2);
+ * findNRooksSolution() -> O(n**2);
+ * countNRooksSolutions() -> O(n);
+ * findNQueensSolution() -> O(n**2);
+ * countNQueensSolutions() -> O(n**2);
+ */
